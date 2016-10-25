@@ -26,12 +26,26 @@ class UsersController < ApplicationController
   end
 
   def show
-    render json: { user: current_resource_owner }, status: :ok 
+    render json: { user: 'Edsil Basadre' }, status: :ok 
+  end
+
+  def update
+    user = User.find_by( params[:id] )
+
+    if user.update( account_params )
+      render json: { }, status: :ok
+    else
+      render json: user.errors.full_messages, status: :unproccessable_entity
+    end
   end
 
   private
 
   def user_params
     params.permit( :email, :password )
+  end
+
+  def account_params
+    params.permit( :email )
   end
 end
