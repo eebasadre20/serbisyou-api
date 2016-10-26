@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.3.1
+services:
+  - postgresql
+before_install:
+  - postgresql -c 'create database serbisyou_api_test;' -U postgres
+
+script: bundle exec rspec spec
