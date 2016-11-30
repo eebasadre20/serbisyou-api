@@ -14,8 +14,9 @@ Doorkeeper.configure do
 
   access_token_expires_in 24.hours
 
+  use_refresh_token
   default_scopes :api
-  default_scopes :write
+  default_scopes :public
 
   skip_authorization do | resource_owner, client |
     true

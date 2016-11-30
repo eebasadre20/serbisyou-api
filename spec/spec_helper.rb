@@ -16,8 +16,6 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-include Warden::Test::Helpers
-Warden.test_mode!
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
