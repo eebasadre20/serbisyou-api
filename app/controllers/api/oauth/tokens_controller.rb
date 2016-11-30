@@ -4,7 +4,7 @@ class Api::Oauth::TokensController < Doorkeeper::TokensController
     response = authorize_response
     self.headers.merge!( response.headers )
 
-    if status_code.present?
+    if @status_code.present?
       self.status = status_code.to_i
     else
       if response.status == :ok
@@ -25,7 +25,7 @@ class Api::Oauth::TokensController < Doorkeeper::TokensController
     [
       { "HTTP_GRANT_TYPE" => "grant_type" },
       { "HTTP_CLIENT_ID" => "client_id" },
-      { "HTTP_CLIENT_SECRET" = > "client_secret" }
+      { "HTTP_CLIENT_SECRET" => "client_secret" }
     ].each do | pair |
       pair.each do | _header_, _params_ |
         content = request.headers[_header_]
@@ -35,7 +35,7 @@ class Api::Oauth::TokensController < Doorkeeper::TokensController
   end
 
 
-  def json_success( responses )
+  def json_success( response )
     {
       success: true,
       data: {
@@ -47,7 +47,7 @@ class Api::Oauth::TokensController < Doorkeeper::TokensController
   def json_fail( response )
     error_from_oauth = response.body
     return_message = {
-      success: false
+      success: false,
       errors: [ error_from_oauth ]
     }
 
@@ -56,6 +56,7 @@ class Api::Oauth::TokensController < Doorkeeper::TokensController
     else
       if error_from_oauth[:error] == :invalid_grant
         replacement = { errors: [ { "error": :invalid_grant, "error_description": "Error! Invalid email or password." } ] }
+      end
     end
 
     return_message.merge!( replacement ) if replacement.present?

@@ -10,12 +10,9 @@ gem 'rack-cors'
 
 group :development, :test do
   gem 'byebug', platform: :mri
-  gem 'rspec-rails', '~> 3.5'
-  gem 'rspec-retry'
-  gem 'rspec-json_expectations'
-  gem 'faker'
+  gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'guard-rspec'
+  gem 'rspec-json_expectations'
 end
 
 group :development do

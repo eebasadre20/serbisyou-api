@@ -64,8 +64,6 @@ GEM
     factory_girl_rails (4.7.0)
       factory_girl (~> 4.7.0)
       railties (>= 3.0.0)
-    faker (1.6.6)
-      i18n (~> 0.5)
     ffi (1.9.14)
     formatador (0.2.5)
     globalid (0.3.7)
@@ -151,10 +149,6 @@ GEM
       ffi (>= 0.5.0)
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
-    rspec (3.5.0)
-      rspec-core (~> 3.5.0)
-      rspec-expectations (~> 3.5.0)
-      rspec-mocks (~> 3.5.0)
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -172,10 +166,7 @@ GEM
       rspec-expectations (~> 3.5.0)
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
-    rspec-retry (0.5.2)
-      rspec-core (> 3.3, < 3.6)
     rspec-support (3.5.0)
-    shellany (0.0.1)
     slop (3.6.0)
     spring (2.0.0)
       activesupport (>= 4.2)
@@ -224,8 +215,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 5.0.0, >= 5.0.0.1)
   rspec-json_expectations
-  rspec-rails (~> 3.5)
-  rspec-retry
+  rspec-rails
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
