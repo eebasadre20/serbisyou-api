@@ -6,7 +6,7 @@ Doorkeeper.configure do
     wardern.authenticate!( scope: :user )
   end
 
-  resource_owner_from_credentials do | routes |
+  resource_owner_from_credentials do | routes | 
     user = User.find_for_database_authentication( email: params[:email] )
     
     user if user && user.valid_password?( params[:password] )
