@@ -4,6 +4,6 @@ rvm:
 services:
   - postgresql
 before_install:
-  - postgresql -c 'create database serbisyou_api_test;' -U root
+  - psql -c 'create database serbisyou_api_test;' -U root
 
 script: bundle exec rspec spec
