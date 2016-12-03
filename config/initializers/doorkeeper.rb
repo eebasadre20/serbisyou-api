@@ -12,6 +12,27 @@ Doorkeeper.configure do
     user if user && user.valid_password?( params[:password] )
   end
 
+  resource_owner_from_assertion do 
+    if ['facebook','google_oauth2'].include?( params[:provider] )
+      user = User.find_or_initialize_by( email: params[:email] )
+
+      if user.new_record?
+        user.email = params[:email]
+        user.password = SecureRandom.hex(9)
+
+        if user.save
+
+        else
+          user = nil
+        end
+      end
+    else
+      user = nil
+    end
+
+    user
+  end
+
   access_token_expires_in 24.hours
 
   use_refresh_token
@@ -22,7 +43,7 @@ Doorkeeper.configure do
     true
   end
 
-  grant_flows %w( authorization_code password client_credentials )
+  grant_flows %w( authorization_code password client_credentials assertion )
   # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
   # admin_authenticator do
   #   # Put your admin authentication logic here.

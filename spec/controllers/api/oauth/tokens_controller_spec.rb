@@ -100,6 +100,48 @@ describe Api::Oauth::TokensController do
              )
           end
         end
+      end   
+
+      describe 'assertion' do
+        context 'when valid client and user credentials' do
+          before do
+            request.headers['HTTP_GRANT_TYPE'] = 'assertion'
+            request.headers['HTTP_CLIENT_ID'] = app.uid
+            request.headers['HTTP_CLIENT_SECRET'] = app.secret
+          end
+
+          it 'successfully responds authentication details for login via facebook' do
+            post :create, email: user.email, password: "", provider: 'facebook', id: '12345678'
+
+            expect( json ).to include_json( 
+              success: true,
+              data: {
+                auth: {
+                  expires_in: 86400,
+                  scope: 'public',
+                  token_type: 'bearer'
+                }
+              }
+            )
+            expect( json['data']['auth']['access_token'] ).to_not be_nil
+          end
+
+          it 'successfully responds authentication details for login via google oauth' do
+            post :create, email: user.email, password: "", provider: 'google_oauth2', id: '12345678'
+
+            expect( json ).to include_json(
+              success: true,
+              data: {
+                auth: {
+                  expires_in: 86400,
+                  scope: 'public',
+                  token_type: 'bearer'
+                }
+              }
+            )
+            expect( json['data']['auth']['access_token'] ).to_not be_nil
+          end
+        end
       end
     end
   end
