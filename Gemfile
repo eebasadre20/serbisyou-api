@@ -12,6 +12,7 @@ gem 'omniauth-google-oauth2'
 gem 'doorkeeper'
 gem 'doorkeeper-grants_assertion', git: "https://github.com/doorkeeper-gem/doorkeeper-grants_assertion.git"
 gem 'rack-cors'
+gem 'rolify'
 
 group :development, :test do
   gem 'byebug', platform: :mri
