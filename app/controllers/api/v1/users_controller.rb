@@ -3,6 +3,8 @@ class Api::V1::UsersController < ApplicationController
     user = User.new( user_params )
 
     if user.save
+      user.add_role( params[:user][:role] )
+
       application = Doorkeeper::Application.where( 
                         uid: Rails.application.secrets.doorkeeper['client_id'], 
                         secret: Rails.application.secrets.doorkeeper['client_secret']
@@ -42,7 +44,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.permit( :email, :password )
+    params.permit( :email, :password, :role )
   end
 
   def account_params

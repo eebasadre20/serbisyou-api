@@ -12,25 +12,28 @@ Doorkeeper.configure do
     user if user && user.valid_password?( params[:password] )
   end
 
-  resource_owner_from_assertion do 
-    if ['facebook','google_oauth2'].include?( params[:provider] )
-      user = User.find_or_initialize_by( email: params[:email] )
+  resource_owner_from_assertion do
+    begin  
+      if ['facebook','google_oauth2'].include?( params[:provider] )
+        user = User.find_or_initialize_by( email: params[:email] )
 
-      if user.new_record?
-        user.email = params[:email]
-        user.password = SecureRandom.hex(9)
+        if user.new_record?
+          user.email = params[:email]
+          user.password = SecureRandom.hex(9)
+          if user.save
 
-        if user.save
-
-        else
-          user = nil
+          else
+            user = nil
+          end
         end
+      else
+        user = nil
       end
-    else
-      user = nil
-    end
 
-    user
+      user
+    rescue
+      nil
+    end
   end
 
   access_token_expires_in 24.hours
