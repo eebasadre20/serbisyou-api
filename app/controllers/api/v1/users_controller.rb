@@ -3,10 +3,17 @@ class Api::V1::UsersController < ApplicationController
     user = User.new( user_params )
 
     if user.save
-      application = Doorkeeper::Application.where( 
+      application = if Rails.env.test? 
+                      Doorkeeper::Application.where( 
+                        uid: params[:client_id], 
+                        secret: params[:client_secret] 
+                      ).first
+                    else
+                      Doorkeeper::Application.where( 
                         uid: Rails.application.secrets.doorkeeper['client_id'], 
                         secret: Rails.application.secrets.doorkeeper['client_secret']
                       ).first 
+                    end
 
       oauth_resource  = Doorkeeper::AccessToken.create!({
                           application_id: application.id,

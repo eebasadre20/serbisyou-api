@@ -10,13 +10,11 @@ RSpec.shared_context 'user_setup' do
       b.adapter :rack, Rails.application
     end
 
-    binding.pry
-
     client_credentials    = oauth_client.password.get_token(client.email, client.password)
     # service_provider      = oauth_client.password.get_token(service_provider.email, service_provider.password)
     # office_admin          = oauth_client.password.get_token(office_admin.email, office_admin.password)
 
-    # @client_access_token            = client_credentials['data']['auth']['access_token']
+    @client_access_token            = client_credentials['data']['auth']['access_token']
     # @service_provider_access_token  = service_provider['data']['auth']['access_token']
     # @office_admin                   = office_admin['data']['auth']['access_token']
   end
