@@ -9,15 +9,16 @@ gem 'omniauth'
 gem 'omniauth-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
-gem 'doorkeeper'
+gem 'doorkeeper', '~> 4.2.5'
 gem 'doorkeeper-grants_assertion', git: "https://github.com/doorkeeper-gem/doorkeeper-grants_assertion.git"
 gem 'rack-cors'
 gem 'rolify'
+gem 'jbuilder'
 
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', '~> 4.8.0'
   gem 'rspec-json_expectations'
 end
 

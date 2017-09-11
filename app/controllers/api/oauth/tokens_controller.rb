@@ -1,6 +1,7 @@
 class Api::Oauth::TokensController < Doorkeeper::TokensController
   def create
     parse_oauth_headers
+    binding.pry
     response = authorize_response
     self.headers.merge!( response.headers )
 

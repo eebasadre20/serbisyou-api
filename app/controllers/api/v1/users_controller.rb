@@ -1,4 +1,4 @@
-  class Api::V1::UsersController < ApplicationController
+class Api::V1::UsersController < ApplicationController
   def create
     user = User.new( user_params )
 
@@ -48,4 +48,4 @@
   def account_params
     params.permit( :email )
   end
-  end
+end
