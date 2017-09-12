@@ -3,11 +3,12 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    wardern.authenticate!( scope: :user )
+    puts "===== authenticator_token"
+    current_user || warden.authenticate!( scope: :user )
   end
 
   resource_owner_from_credentials do | routes | 
-    user = User.find_for_database_authentication( email: params[:email] )
+    user = User.find_for_database_authentication( email: params[:username] )
     
     user if user && user.valid_password?( params[:password] )
   end

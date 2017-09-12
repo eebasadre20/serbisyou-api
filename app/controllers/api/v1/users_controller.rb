@@ -3,12 +3,17 @@ class Api::V1::UsersController < ApplicationController
     user = User.new( user_params )
 
     if user.save
-      user.add_role( params[:user][:role] )
-
-      application = Doorkeeper::Application.where( 
+      application = if Rails.env.test? 
+                      Doorkeeper::Application.where( 
+                        uid: params[:client_id], 
+                        secret: params[:client_secret] 
+                      ).first
+                    else
+                      Doorkeeper::Application.where( 
                         uid: Rails.application.secrets.doorkeeper['client_id'], 
                         secret: Rails.application.secrets.doorkeeper['client_secret']
                       ).first 
+                    end
 
       oauth_resource  = Doorkeeper::AccessToken.create!({
                           application_id: application.id,
@@ -18,9 +23,9 @@ class Api::V1::UsersController < ApplicationController
                         })
 
       render json: { user_id: oauth_resource.id,
-                     token: oauth_resource.token,
-                     refresh_token: oauth_resource.refresh_token,
-                     expires_in: oauth_resource.expires_in 
+                      token: oauth_resource.token,
+                      refresh_token: oauth_resource.refresh_token,
+                      expires_in: oauth_resource.expires_in 
                     }, status: :created
     else
       render json: user.errors, status: :unproccessable_entity
@@ -44,7 +49,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.permit( :email, :password, :role )
+    params.permit( :email, :password, roles_attributes: [:name]  )
   end
 
   def account_params

@@ -54,13 +54,13 @@ describe Api::Oauth::TokensController do
       end
 
       describe 'password' do
-        context 'when valid client and user credentials' do
+        fcontext 'when valid client and user credentials' do
           before do
             request.headers['HTTP_GRANT_TYPE'] = 'password'
             request.headers['HTTP_CLIENT_ID'] = app.uid
             request.headers['HTTP_CLIENT_SECRET'] = app.secret
 
-            post :create, email: user.email, password: user.password
+            post :create, username: user.email, password: user.password
           end
 
           it 'successfully responds authentication details' do
@@ -86,7 +86,7 @@ describe Api::Oauth::TokensController do
             request.headers['HTTP_CLIENT_ID'] = 'invalid app uid'
             request.headers['HTTP_CLIENT_SECRET'] = 'invalid app secret'
 
-            post :create, email: 'incorrect email', password: 'incorrect password'
+            post :create, username: 'incorrect email', password: 'incorrect password'
           end
 
           it 'responds authentication failed' do

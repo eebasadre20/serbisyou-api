@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   use_doorkeeper
-  resources :users, defaults: { format: :json }
+  devise_for :users, defaults: { format: :json }
+  # resources :users, defaults: { format: :json }
 
   namespace :api, constraints: lambda { |req| req.format == :json }, defaults: { format: :json } do
     use_doorkeeper do
@@ -8,7 +9,8 @@ Rails.application.routes.draw do
     end
 
     scope module: 'v1' do
-      resources :users, only: [:create, :show, :update]
+      resources :users, only: [:create, :show, :update], defaults: { format: :json }
     end   
   end
 end
+
