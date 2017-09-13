@@ -14,6 +14,7 @@ gem 'doorkeeper-grants_assertion', git: "https://github.com/doorkeeper-gem/doork
 gem 'rack-cors'
 gem 'rolify'
 gem 'jbuilder'
+gem "paperclip", "~> 5.0.0"
 
 group :development, :test do
   gem 'byebug', platform: :mri
