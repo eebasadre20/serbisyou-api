@@ -60,7 +60,7 @@ describe Api::Oauth::TokensController do
             request.headers['HTTP_CLIENT_ID'] = app.uid
             request.headers['HTTP_CLIENT_SECRET'] = app.secret
 
-            post :create, username: user.email, password: user.password
+            post :create, params: { username: user.email, password: user.password }
           end
 
           it 'successfully responds authentication details' do
@@ -86,7 +86,7 @@ describe Api::Oauth::TokensController do
             request.headers['HTTP_CLIENT_ID'] = 'invalid app uid'
             request.headers['HTTP_CLIENT_SECRET'] = 'invalid app secret'
 
-            post :create, username: 'incorrect email', password: 'incorrect password'
+            post :create, params: { username: 'incorrect email', password: 'incorrect password' }
           end
 
           it 'responds authentication failed' do
@@ -111,7 +111,7 @@ describe Api::Oauth::TokensController do
           end
 
           it 'successfully responds authentication details for login via facebook' do
-            post :create, email: user.email, password: "", provider: 'facebook', id: '12345678'
+            post :create, params: { email: user.email, password: "", provider: 'facebook', id: '12345678' }
 
             expect( json ).to include_json( 
               success: true,
@@ -127,7 +127,7 @@ describe Api::Oauth::TokensController do
           end
 
           it 'successfully responds authentication details for login via google oauth' do
-            post :create, email: user.email, password: "", provider: 'google_oauth2', id: '12345678'
+            post :create, params: { email: user.email, password: "", provider: 'google_oauth2', id: '12345678' }
 
             expect( json ).to include_json(
               success: true,
