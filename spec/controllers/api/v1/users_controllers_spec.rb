@@ -40,7 +40,7 @@ describe Api::V1::UsersController do
         end
 
         it 'successfully uploaded avatar' do
-          binding.pry
+          # TODO Spec
         end
       end
     end
