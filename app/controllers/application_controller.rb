@@ -9,7 +9,7 @@ class ApplicationController < ActionController::API
 
   def whitelisted?
     endpoints_whitelists = [ 
-        { controller: 'users', actions: [ 'create' ] }
+        { controller: 'users', actions: [ 'create', 'upload_avatar' ] }
       ]
 
     endpoints_whitelists.any? { | e | e[:controller] == controller_name && e[:actions].include?( action_name ) }
@@ -19,7 +19,7 @@ class ApplicationController < ActionController::API
     Doorkeeper::Application.where( uid: request.headers['HTTP_CLIENT_ID'], secret: request.headers['HTTP_CLIENT_SECRET'] ).first.present?
   end
 
-  def current_resource_owner
-    User.find( params[:id] ) #if doorkeeper_token
+  def current_user
+    @current_user ||= User.find( doorkeeper_token.resource_owner_id ) if doorkeeper_token
   end
 end

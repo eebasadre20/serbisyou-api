@@ -46,10 +46,26 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def upload_avatar
+
+    if params[:image_base64].present? 
+      avatar = current_user.save_avatar( params ) 
+
+      if avatar
+        render json: avatar, status: :created
+      else
+        render json: avatar.error_message, status: :unproccessable_entity
+      end
+
+    else
+      render json: { error_message: 'Missing image base64' }, status: :unproccessable_entity
+    end
+  end
+
   private
 
   def user_params
-    params.permit( :email, :password, roles_attributes: [:name]  )
+    params.permit( :email, :password, :image_base64, roles_attributes: [:name]  )
   end
 
   def account_params

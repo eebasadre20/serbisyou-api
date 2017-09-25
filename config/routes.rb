@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
     scope module: 'v1' do
       resources :users, only: [:create, :show, :update], defaults: { format: :json }
+      post 'user/upload/avatar', to: 'users#upload_avatar', defaults: { format: :json }
     end   
   end
 end
