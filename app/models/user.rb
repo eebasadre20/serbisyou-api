@@ -13,12 +13,9 @@ class User < ApplicationRecord
 
 
   def save_avatar( params )
-    begin
-      avatar = Upload.new( uploadable: self, file: parse_image( params[:image_base64] ) )
-      return avatar if avatar.save!
-    rescue => exception
-      return { error_message: expception.message }
-    end
+    Upload.create!( uploadable: self, file: parse_image( params[:image_base64] ) )
+  rescue ActiveRecord::RecordInvalid => exception
+    errors.add(:avatar, "Invalid file format. (Only JPG/JPEG/PNG allowed)")
   end
 
   private 
