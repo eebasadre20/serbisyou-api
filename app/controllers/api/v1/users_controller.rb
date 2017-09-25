@@ -1,4 +1,6 @@
 class Api::V1::UsersController < ApplicationController
+  before_action :parse_image, only: :upload_avatar
+
   def create
     user = User.new( user_params )
 
@@ -47,18 +49,14 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def upload_avatar
+    render json: { error_message: 'Missing image base64' } and return if params[:image_base64].empty?
+    
+    avatar = Upload.new( uploadable: current_user, file: params[:parsed_image] )
 
-    if params[:image_base64].present? 
-      avatar = current_user.save_avatar( params ) 
-
-      if avatar
-        render json: avatar, status: :created
-      else
-        render json: avatar.error_message, status: :unproccessable_entity
-      end
-
+    if avatar.save
+      render json: avatar, status: :created
     else
-      render json: { error_message: 'Missing image base64' }, status: :unproccessable_entity
+      render json: avatar.errors, status: :unproccessable_entity
     end
   end
 
@@ -70,5 +68,11 @@ class Api::V1::UsersController < ApplicationController
 
   def account_params
     params.permit( :email )
+  end
+
+  def parse_image
+    image = Paperclip.io_adapters.for(params[:image_base64]) 
+    image.original_filename = "file.jpg" 
+    params[:parsed_image] = image
   end
 end

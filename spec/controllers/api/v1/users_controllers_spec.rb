@@ -32,7 +32,7 @@ describe Api::V1::UsersController do
     end
   end
 
-  fdescribe 'POST save avatar' do
+  describe 'POST save avatar' do
     describe 'Client upload avatar' do
       context 'when image base64 present' do
         before do
@@ -40,7 +40,18 @@ describe Api::V1::UsersController do
         end
 
         it 'successfully uploaded avatar' do
-          # TODO Spec
+          expect( response ).to have_http_status( 201 )
+        end
+      end
+
+      context 'when image base64 is nil' do
+        before do
+          post :upload_avatar, format: :json, params: { access_token: @client_access_token, image_base64: '', client_id: app.uid, client_secret: app.secret }
+        end
+
+        it 'return validation error message' do
+          expect( response ).to have_http_status( 200 )
+          expect( JSON( response.body )['error_message'] ).to eq( 'Missing image base64' )
         end
       end
     end
