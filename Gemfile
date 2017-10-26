@@ -21,6 +21,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails', '~> 4.8.0'
   gem 'rspec-json_expectations'
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-byebug'
 end
 
 group :development do
@@ -29,9 +32,6 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'better_errors'
   gem 'web-console'
-  gem 'pry'
-  gem 'pry-rails'
-  gem 'pry-byebug'
   gem 'rubocop', '~> 0.46.0', require: false
 end
 
