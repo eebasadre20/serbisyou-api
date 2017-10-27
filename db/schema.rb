@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171027071609) do
+ActiveRecord::Schema.define(version: 20171027072405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,15 @@ ActiveRecord::Schema.define(version: 20171027071609) do
     t.index ["name"], name: "index_roles_on_name"
   end
 
+  create_table "sp_skills", force: :cascade do |t|
+    t.bigint "service_provider_id"
+    t.bigint "skill_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_provider_id"], name: "index_sp_skills_on_service_provider_id"
+    t.index ["skill_id"], name: "index_sp_skills_on_skill_id"
+  end
+
   create_table "sub_categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -125,5 +134,7 @@ ActiveRecord::Schema.define(version: 20171027071609) do
   add_foreign_key "clearances", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
+  add_foreign_key "sp_skills", "sub_categories", column: "skill_id"
+  add_foreign_key "sp_skills", "users", column: "service_provider_id"
   add_foreign_key "sub_categories", "categories"
 end

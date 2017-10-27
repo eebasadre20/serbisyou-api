@@ -7,6 +7,9 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :roles, allow_destroy: true
 
+  has_many :sp_skills
+  has_many :skill, class_name: 'SubCategory', through: :sp_skills
+
   has_many :clearances
   has_one :avatar, as: :uploadable, class_name: 'Upload'
   accepts_nested_attributes_for :avatar
