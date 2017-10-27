@@ -35,7 +35,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    render json: { user: 'Edsil Basadre' }, status: :ok 
+    render json: current_user, status: :ok 
   end
 
   def update
